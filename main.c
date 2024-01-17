@@ -110,7 +110,6 @@ int main( int argc, char **argv){
 		
 		ant.y=(ant.m-1)/2;
 		ant.x=(ant.n-1)/2;
-		
 		for (i=0; i<ant.m; i++)
 			for (j=0; j<ant.n; j++)
 				ant.s[i][j]=0;
@@ -119,7 +118,7 @@ int main( int argc, char **argv){
 		}
 	}
 	wypisz(&ant, 0);
-
+	printf("%d %d\n", ant.y, ant.x);
 	for (i=1; i<=ant.i; i++){
 		move(&ant);
 		wypisz(&ant, i);

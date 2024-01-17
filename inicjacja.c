@@ -14,18 +14,22 @@ int wczytaj(mrowka * ant){
 		while ((z=fgetwc(in)) !=WEOF){
 			while (z==L'\n')
 				z=fgetwc(in);
+			if (nn==0 && mm==0){
+				while (z!=L'┌')
+					z=fgetwc(in);
+			}
 			if (z==WEOF)
 				break;
-			wprintf(L"Wczytano symbol: %lc\n", z);
 			if (nn==ant->n){
 				mm++;
 				nn=0;
 			}
 			if (mm==ant->m)
 				break;
-			if (z==L'█')
+			if (z==L'█'){
 				ant->s[mm][nn]=1;
-			else if (z!=L' ' && nn!=0 && nn!=ant->n-1 && mm!=0 && mm!=ant->m-1){
+				printf("%d %d \n", nn, mm);
+			}else if (z!=L' ' && nn!=0 && nn!=ant->n-1 && mm!=0 && mm!=ant->m-1){
 				ant->x=nn;
 				ant->y=mm;
 				if (z==L'△'){
