@@ -1,6 +1,6 @@
 #ifndef _INICJACJA_H_IS_INCLUDED_
 #define _INICJACJA_H_IS_INCLUDED_
-#include <stdio.h>
+
 typedef struct{
 	int **s;
 	int m;
@@ -10,7 +10,6 @@ typedef struct{
 	int d;
 	char *l;
 	double p;
-	FILE  *out;
 	int x;//n ant_location
 	int y;//m ant_location
 } mrowka;
