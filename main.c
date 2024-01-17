@@ -5,6 +5,7 @@
 #include <locale.h>
 #include "inicjacja.h"
 #include "wypisywanie.h"
+#include "ruch.h"
 
 // LINE_VERTICAL:│
 // LINE_HORIZONTAL:─
@@ -117,6 +118,12 @@ int main( int argc, char **argv){
 			los(&ant);
 		}
 	}
-	wypisz(&ant,0);
+	wypisz(&ant, 0);
+
+	for (i=1; i<=ant.i; i++){
+		move(&ant);
+		wypisz(&ant, i);
+	}
+
 	return 0;
 }
