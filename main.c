@@ -101,7 +101,7 @@ int main( int argc, char **argv){
 				ant.d=3;
 				break;
 			default:
-				fprintf(stderr, "Nieprawidłowa wartość dla parametru -d. Podaj N E S lub W.\n");
+				fprintf(stderr, "Podaj kierunek mrówki jako N E S lub W.\n");
 				return 1;
 		}
 
