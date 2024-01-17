@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <wchar.h>
 #include <locale.h>
+#include "inicjacja.h"
 
 // LINE_VERTICAL:│
 // LINE_HORIZONTAL:─
@@ -21,6 +22,8 @@
 // ARROW_WEST_WHITE:◁
 // ARROW_WEST_BLACK:◀
 
+
 int main( int argc, char **argv){
+	mrowka ant;
 	return 0;
 }
