@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <wchar.h>
 #include <locale.h>
-#include <time.h>
 #include "inicjacja.h"
 
 // LINE_VERTICAL:│
@@ -114,7 +113,6 @@ int main( int argc, char **argv){
 			for (j=0; j<ant.n; j++)
 				ant.s[i][j]=0;
 		if (ant.p>0){
-			srand(time(NULL));
 			los(&ant);
 		}
 	}

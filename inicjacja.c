@@ -1,6 +1,8 @@
 #include "inicjacja.h"
 #include <wchar.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int wczytaj(mrowka * ant){
 	int mm, nn;
@@ -67,5 +69,25 @@ int wczytaj(mrowka * ant){
 }
 
 int los(mrowka * ant){
+	int i, j;
+	int x=ant->m*ant->n*ant->p/100;
+	int wylosowane[x];
+	int k=ant->m*ant->n;
+	int m,n;
+	srand(time(NULL));
+	for (i=0; i<x; i++){
+		wylosowane[i]=rand() % k;
+       		for (j=0; j<i; j++)
+			if (wylosowane[i] == wylosowane[j]){
+				i--;
+				break;
+			}
+	}
+	for (i=0; i<x; i++){
+		m=wylosowane[i]/ant->n;
+		n=wylosowane[i]%ant->n;
+		ant->s[m][n]=1;
+	}
+
 	return 0;
 }
