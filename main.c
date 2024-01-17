@@ -4,6 +4,7 @@
 #include <wchar.h>
 #include <locale.h>
 #include "inicjacja.h"
+#include "wypisywanie.h"
 
 // LINE_VERTICAL:│
 // LINE_HORIZONTAL:─
@@ -116,5 +117,6 @@ int main( int argc, char **argv){
 			los(&ant);
 		}
 	}
+	wypisz(&ant,0);
 	return 0;
 }
