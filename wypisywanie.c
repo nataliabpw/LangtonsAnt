@@ -78,6 +78,7 @@ int wypisz(mrowka * ant, pole_m * pole, int nr, char *o){
 				fprintf(out, " ");
 		fprintf(out,"\n");
 	}
-	fclose(out);
+	if (out!=stdout)
+		fclose(out);
 	return 0;
 }
