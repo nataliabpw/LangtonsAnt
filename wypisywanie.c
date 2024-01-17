@@ -53,31 +53,31 @@ int wypisz(mrowka * ant, int nr){
 		out = stdout;
 
 	if (out==NULL){
-		fprintf(stderr, "Nie moge pisać do %s\n", ant->o);
+		fprintf(stderr, "Nie moge pisać do %s_%d\n", ant->o, nr);
 		return 1;
 	}
-	fprintf(out, "%d\n", nr);
-	for(i=0; i<m; i++){
-		for(j=0; j<n; j++)
-			if (i==ant->y && j==ant->x)
+	for(i=0; i<m+2; i++){
+		for(j=0; j<n+2; j++)
+			if (i-1==ant->y && j-1==ant->x)
 				fprintf(out,"%s", x);
-			else if (ant->s[i][j]==1)
+			else if (i>0 && j>0 && i-1<m && j-1<n && ant->s[i-1][j-1]==1)
 				fprintf(out, "█");
 			else if (i==0 && j==0)
 				fprintf(out, "┌");
-			else if (i==0 && j==n-1)
+			else if (i==0 && j==n+1)
 				fprintf(out, "┐");
-			else if (i==m-1 && j==0)
+			else if (i==m+1 && j==0)
 				fprintf(out, "└");
-			else if (i==m-1 && j==n-1)
+			else if (i==m+1 && j==n+1)
 				fprintf(out, "┘");
-			else if (j==0 || j==n-1)
+			else if (j==0 || j==n+1)
 				fprintf(out, "│");
-			else if (i==0 || i==m-1)
+			else if (i==0 || i==m+1)
 				fprintf(out, "─");
-			else if (ant->s[i][j]==0)
+			else if (i>0 && j>0 && i-1<m && j-1<n && ant->s[i-1][j-1]==0)
 				fprintf(out, " ");
 		fprintf(out,"\n");
 	}
+	fclose(out);
 	return 0;
 }

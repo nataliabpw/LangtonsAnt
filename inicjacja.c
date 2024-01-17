@@ -20,47 +20,57 @@ int wczytaj(mrowka * ant){
 			}
 			if (z==WEOF)
 				break;
-			if (nn==ant->n){
+			if (nn==ant->n+2){
 				mm++;
 				nn=0;
 			}
-			if (mm==ant->m)
+			if (mm==ant->m+2)
 				break;
-			if (z==L'█'){
-				ant->s[mm][nn]=1;
-				printf("%d %d \n", nn, mm);
-			}else if (z!=L' ' && nn!=0 && nn!=ant->n-1 && mm!=0 && mm!=ant->m-1){
-				ant->x=nn;
-				ant->y=mm;
+			if (mm==0 || nn==0 || nn==ant->n+1 || mm==ant->m+1){
+				nn++;
+				continue;
+			}else if (z==L'█'){
+				ant->s[mm-1][nn-1]=1;
+			}else if (z==L'▲' || z==L'△' || z==L'▷'|| z==L'▶' || z==L'▽' || z==L'▼' || z==L'◁' || z==L'◀'){
+				ant->x=nn-1;
+				ant->y=mm-1;
 				if (z==L'△'){
 					ant->d=0;
-					ant->s[mm][nn]=0;
+					ant->s[mm-1][nn-1]=0;
 				} else if (z==L'▲'){
 					ant->d=0;
-					ant->s[mm][nn]=1;
+					ant->s[mm-1][nn-1]=1;
 				} else if (z==L'▷'){
 					ant->d=1;
-					ant->s[mm][nn]=0;
+					ant->s[mm-1][nn-1]=0;
 				} else if (z==L'▶'){
 					ant->d=1;
-					ant->s[mm][nn]=1;
+					ant->s[mm-1][nn-1]=1;
 				} else if (z==L'▽'){
 					ant->d=2;
-					ant->s[mm][nn]=0;
+					ant->s[mm-1][nn-1]=0;
 				} else if (z==L'▼'){
 					ant->d=2;
-					ant->s[mm][nn]=1;	
+					ant->s[mm-1][nn-1]=1;	
 				} else if (z==L'◁'){
 					ant->d=3;
-					ant->s[mm][nn]=0;
+					ant->s[mm-1][nn-1]=0;
 				} else if (z==L'◀'){
 					ant->d=3;
-					ant->s[mm][nn]=1;
+					ant->s[mm-1][nn-1]=1;
 				}
-			}else
-				ant->s[mm][nn]=0;
+			}else if(z==L' '){
+				ant->s[mm-1][nn-1]=0;
+			}else if (z==L'┌' || z==L'─' || z==L'┐' || z==L'│' || z==L'└' || z==L'┘'){
+				fprintf(stderr, "Podane wartości m i n nie zgadzają się z wczytanym plikiem.\n");
+				return 1;
+			}else{
+				fprintf(stderr, "Plik zawiera nieprawidłowy znak.\n");
+				return 1;
+			}
 			nn++;	
 		}
+		
 		if (ant->d==-1){
 			fprintf(stderr, "Nie mogę odczytać pozycji mrówki.\n");
 			return 1;

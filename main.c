@@ -26,7 +26,7 @@
 
 
 int main( int argc, char **argv){
-	int i, j;
+	int i, j, pom;
 	int opt;
 	char pom_d='x';
 	mrowka ant;
@@ -85,9 +85,11 @@ int main( int argc, char **argv){
 	for (i=0; i<ant.m; i++)
 		ant.s[i]=malloc(ant.n*sizeof(int));
 	
-	if (ant.l!=NULL)
-		wczytaj(&ant);
-	else{
+	if (ant.l!=NULL){
+		pom=wczytaj(&ant);
+		if (pom==1)
+			return 1;
+	}else{
 		switch (pom_d){
 			case 'N':
 				ant.d=0;
@@ -117,11 +119,14 @@ int main( int argc, char **argv){
 			los(&ant);
 		}
 	}
-	wypisz(&ant, 0);
-	printf("%d %d\n", ant.y, ant.x);
+	pom=wypisz(&ant, 0);
+	if (pom==1)
+		return 1;
 	for (i=1; i<=ant.i; i++){
 		move(&ant);
-		wypisz(&ant, i);
+		pom=wypisz(&ant, i);
+		if (pom==1)
+			return 1;
 	}
 
 	return 0;
