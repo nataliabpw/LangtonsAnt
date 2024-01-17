@@ -29,34 +29,36 @@ int main( int argc, char **argv){
 	int i, j, pom;
 	int opt;
 	char pom_d='x';
+	char *o=NULL;
+	char *l=NULL;
+	int it=0;
 	mrowka ant;
-	ant.o=NULL;
-	ant.l=NULL;
-	ant.p=0;
-	ant.m=ant.n=ant.i=0;
+	pole_m pole;
+	pole.p=0;
+	pole.m=pole.n=0;
 	setlocale(LC_ALL, "");
 	while ((opt=getopt(argc, argv, "m:n:i:o:d:l:p:")) != -1){
 		switch (opt){
 			case 'm':
-				ant.m=atoi(optarg);
+				pole.m=atoi(optarg);
 				break;
 			case 'n':
-				ant.n=atoi(optarg);
+				pole.n=atoi(optarg);
 				break;
 			case 'i':
-				ant.i=atoi(optarg);
+				it=atoi(optarg);
 				break;
 			case 'o':
-				ant.o=optarg;
+				o=optarg;
 				break;
 			case 'd':
 				pom_d=optarg[0];
 				break;
 			case 'l':
-				ant.l=optarg;
+				l=optarg;
 				break;
 			case 'p':
-				ant.p=atof(optarg);
+				pole.p=atof(optarg);
 				break;
 			default:
 				fprintf(stderr, "Użycie ./a.out -m <wiersze> -n <kolumn> -i <iteracje> -o <plik> -d <kierunek> -l(opcjonalny) <mapa do wczytania> -r(opcjonalny) <procentowe zapełnienie>\n");
@@ -64,29 +66,29 @@ int main( int argc, char **argv){
 		}
 	}
 	//Obsługa błędów
-	if (ant.m<=0 && ant.n<=0){
+	if (pole.m<=0 && pole.n<=0){
 		fprintf(stderr, "Należy podać dodatnią liczbę wierszy i kolumn.\n");
 		return 1;
 	}
-	if (ant.i<=0){
+	if (it<=0){
 		fprintf(stderr, "Należy podać dodatnią liczbę iteracji.\n");
 		return 1;
 	}
-	if (ant.p<0){
+	if (pole.p<0){
 		fprintf(stderr, "Procentowe zapełnienie planszy nie może być ujemne.\n");
 		return 1;
 	}
-	if (ant.l!=NULL && ant.p>0){
+	if (l!=NULL && pole.p>0){
 		fprintf(stderr, "Proszę wybrać jedną z dwóch dodatkowych opcji.\n");
 		return 1;
 	}
 
-	ant.s=malloc(ant.m*sizeof(int*));
-	for (i=0; i<ant.m; i++)
-		ant.s[i]=malloc(ant.n*sizeof(int));
+	pole.s=malloc(pole.m*sizeof(int*));
+	for (i=0; i<pole.m; i++)
+		pole.s[i]=malloc(pole.n*sizeof(int));
 	
-	if (ant.l!=NULL){
-		pom=wczytaj(&ant);
+	if (l!=NULL){
+		pom=wczytaj(&ant, &pole, l);
 		if (pom==1)
 			return 1;
 	}else{
@@ -110,21 +112,21 @@ int main( int argc, char **argv){
 
 		
 		
-		ant.y=(ant.m-1)/2;
-		ant.x=(ant.n-1)/2;
-		for (i=0; i<ant.m; i++)
-			for (j=0; j<ant.n; j++)
-				ant.s[i][j]=0;
-		if (ant.p>0){
-			los(&ant);
+		ant.y=(pole.m-1)/2;
+		ant.x=(pole.n-1)/2;
+		for (i=0; i<pole.m; i++)
+			for (j=0; j<pole.n; j++)
+				pole.s[i][j]=0;
+		if (pole.p>0){
+			los(&pole);
 		}
 	}
-	pom=wypisz(&ant, 0);
+	pom=wypisz(&ant, &pole, 0, o);
 	if (pom==1)
 		return 1;
-	for (i=1; i<=ant.i; i++){
-		move(&ant);
-		pom=wypisz(&ant, i);
+	for (i=1; i<=it; i++){
+		move(&ant, &pole);
+		pom=wypisz(&ant, &pole, i, o);
 		if (pom==1)
 			return 1;
 	}

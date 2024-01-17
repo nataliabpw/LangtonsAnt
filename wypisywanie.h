@@ -3,7 +3,7 @@
 
 #include "inicjacja.h"
 
-char *mr(mrowka * ant);
-int wypisz(mrowka * ant, int nr);
+char *mr(mrowka * ant, pole_m * pole);
+int wypisz(mrowka * ant, pole_m *pole, int nr, char *o);
 
 #endif

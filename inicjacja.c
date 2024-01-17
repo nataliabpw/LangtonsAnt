@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-int wczytaj(mrowka * ant){
+int wczytaj(mrowka * ant, pole_m * pole, char *l){
 	int mm, nn;
-	FILE *in=fopen(ant->l, "r");
+	FILE *in=fopen(l, "r");
 	wint_t z;
 	mm=nn=0;
 	ant->d=-1;
@@ -20,47 +20,47 @@ int wczytaj(mrowka * ant){
 			}
 			if (z==WEOF)
 				break;
-			if (nn==ant->n+2){
+			if (nn==pole->n+2){
 				mm++;
 				nn=0;
 			}
-			if (mm==ant->m+2)
+			if (mm==pole->m+2)
 				break;
-			if (mm==0 || nn==0 || nn==ant->n+1 || mm==ant->m+1){
+			if (mm==0 || nn==0 || nn==pole->n+1 || mm==pole->m+1){
 				nn++;
 				continue;
 			}else if (z==L'█'){
-				ant->s[mm-1][nn-1]=1;
+				pole->s[mm-1][nn-1]=1;
 			}else if (z==L'▲' || z==L'△' || z==L'▷'|| z==L'▶' || z==L'▽' || z==L'▼' || z==L'◁' || z==L'◀'){
 				ant->x=nn-1;
 				ant->y=mm-1;
 				if (z==L'△'){
 					ant->d=0;
-					ant->s[mm-1][nn-1]=0;
+					pole->s[mm-1][nn-1]=0;
 				} else if (z==L'▲'){
 					ant->d=0;
-					ant->s[mm-1][nn-1]=1;
+					pole->s[mm-1][nn-1]=1;
 				} else if (z==L'▷'){
 					ant->d=1;
-					ant->s[mm-1][nn-1]=0;
+					pole->s[mm-1][nn-1]=0;
 				} else if (z==L'▶'){
 					ant->d=1;
-					ant->s[mm-1][nn-1]=1;
+					pole->s[mm-1][nn-1]=1;
 				} else if (z==L'▽'){
 					ant->d=2;
-					ant->s[mm-1][nn-1]=0;
+					pole->s[mm-1][nn-1]=0;
 				} else if (z==L'▼'){
 					ant->d=2;
-					ant->s[mm-1][nn-1]=1;	
+					pole->s[mm-1][nn-1]=1;	
 				} else if (z==L'◁'){
 					ant->d=3;
-					ant->s[mm-1][nn-1]=0;
+					pole->s[mm-1][nn-1]=0;
 				} else if (z==L'◀'){
 					ant->d=3;
-					ant->s[mm-1][nn-1]=1;
+					pole->s[mm-1][nn-1]=1;
 				}
 			}else if(z==L' '){
-				ant->s[mm-1][nn-1]=0;
+				pole->s[mm-1][nn-1]=0;
 			}else if (z==L'┌' || z==L'─' || z==L'┐' || z==L'│' || z==L'└' || z==L'┘'){
 				fprintf(stderr, "Podane wartości m i n nie zgadzają się z wczytanym plikiem.\n");
 				return 1;
@@ -76,17 +76,17 @@ int wczytaj(mrowka * ant){
 			return 1;
 		}
 	}else{
-		fprintf(stderr,"Błąd otwarcia pliku %s\n", ant->l);
+		fprintf(stderr,"Błąd otwarcia pliku %s\n", l);
 		return 1;
 	}
 	return 0;
 }
 
-int los(mrowka * ant){
+int los(pole_m * pole){
 	int i, j;
-	int x=ant->m*ant->n*ant->p/100;
+	int x=pole->m*pole->n*pole->p/100;
 	int wylosowane[x];
-	int k=ant->m*ant->n;
+	int k=pole->m*pole->n;
 	int m,n;
 	srand(time(NULL));
 	for (i=0; i<x; i++){
@@ -98,9 +98,9 @@ int los(mrowka * ant){
 			}
 	}
 	for (i=0; i<x; i++){
-		m=wylosowane[i]/ant->n;
-		n=wylosowane[i]%ant->n;
-		ant->s[m][n]=1;
+		m=wylosowane[i]/pole->n;
+		n=wylosowane[i]%pole->n;
+		pole->s[m][n]=1;
 	}
 
 	return 0;

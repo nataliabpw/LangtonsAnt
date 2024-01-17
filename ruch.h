@@ -2,6 +2,6 @@
 #define _RUCH_H_IS_INCLUDED_
 #include "inicjacja.h"
 
-int move(mrowka * ant);
+int move(mrowka * a, pole_m * p);
 
 #endif

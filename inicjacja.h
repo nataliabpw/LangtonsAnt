@@ -2,18 +2,18 @@
 #define _INICJACJA_H_IS_INCLUDED_
 
 typedef struct{
-	int **s;
-	int m;
-	int n;
-	int i;
-	char *o;
 	int d;
-	char *l;
-	double p;
 	int x;//n ant_location
 	int y;//m ant_location
 } mrowka;
 
-int wczytaj(mrowka * ant);
-int los(mrowka * ant);
+typedef struct{
+	int **s;
+	int m;
+	int n;
+	double p;
+} pole_m;
+
+int wczytaj(mrowka * ant, pole_m * pole, char *l);
+int los(pole_m * pole);
 #endif
