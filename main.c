@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <wchar.h>
 #include <locale.h>
+#include <ctype.h>
 #include "inicjacja.h"
 #include "wypisywanie.h"
 #include "ruch.h"
@@ -24,7 +25,6 @@
 // ARROW_WEST_WHITE:◁
 // ARROW_WEST_BLACK:◀
 
-
 int main( int argc, char **argv){
 	int i, j, pom;
 	int opt;
@@ -32,11 +32,14 @@ int main( int argc, char **argv){
 	char *o=NULL;
 	char *l=NULL;
 	int it=0;
+	int spr=0;
 	mrowka ant;
 	pole_m pole;
 	pole.p=0;
 	pole.m=pole.n=0;
 	setlocale(LC_ALL, "C.UTF-8");
+
+	//Przetwarzanie parametrów
 	while ((opt=getopt(argc, argv, "m:n:i:o:d:l:p:")) != -1){
 		switch (opt){
 			case 'm':
@@ -59,14 +62,16 @@ int main( int argc, char **argv){
 				break;
 			case 'p':
 				pole.p=atof(optarg);
+				spr=1;
 				break;
 			default:
 				fprintf(stderr, "Użycie ./a.out -m <wiersze> -n <kolumn> -i <iteracje> -o <plik> -d <kierunek> -l(opcjonalny) <mapa do wczytania> -r(opcjonalny) <procentowe zapełnienie>\n");
 				return EXIT_FAILURE;
 		}
 	}
+
 	//Obsługa błędów
-	if (pole.m<=0 && pole.n<=0){
+	if (pole.m<=0 || pole.n<=0){
 		fprintf(stderr, "Należy podać dodatnią liczbę wierszy i kolumn.\n");
 		return 1;
 	}
@@ -74,19 +79,14 @@ int main( int argc, char **argv){
 		fprintf(stderr, "Należy podać dodatnią liczbę iteracji.\n");
 		return 1;
 	}
-	if (pole.p<0){
-		fprintf(stderr, "Procentowe zapełnienie planszy nie może być ujemne.\n");
+	if (spr==1 && (pole.p<=0 || pole.p>100)){
+		fprintf(stderr, "Niepoprawna wartość procentowego zapełnienia planszy.\n");
 		return 1;
 	}
 	if (l!=NULL && pole.p>0){
 		fprintf(stderr, "Proszę wybrać jedną z dwóch dodatkowych opcji.\n");
 		return 1;
 	}
-
-	pole.s=malloc(pole.m*sizeof(int*));
-	for (i=0; i<pole.m; i++)
-		pole.s[i]=malloc(pole.n*sizeof(int));
-
 	switch (pom_d){
 		case 'N':
 			ant.d=0;
@@ -105,6 +105,12 @@ int main( int argc, char **argv){
 			return 1;
 	}
 
+	//Inicjacja siatki
+	pole.s=malloc(pole.m*sizeof(int*));
+	for (i=0; i<pole.m; i++)
+		pole.s[i]=malloc(pole.n*sizeof(int));
+	
+	//Obsługa wczytwania z pliku
 	if (l!=NULL){
 		pom=wczytaj(&ant, &pole, l);
 		if (pom==1)
@@ -119,6 +125,8 @@ int main( int argc, char **argv){
 			los(&pole);
 		}
 	}
+
+	//Obliczanie i wypisywanie etapów
 	pom=wypisz(&ant, &pole, 0, o);
 	if (pom==1)
 		return 1;
