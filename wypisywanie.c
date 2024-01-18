@@ -2,6 +2,9 @@
 #include "inicjacja.h"
 #include <stdio.h>
 #include <string.h>
+#include <wchar.h>
+#include <locale.h>
+
 
 char *mr( mrowka * ant, pole_m * pole){
 	int d=ant->d;
@@ -30,13 +33,11 @@ char *mr( mrowka * ant, pole_m * pole){
 
 int wypisz(mrowka * ant, pole_m * pole, int nr, char *o){
 	int i, j, m, n;
-	char *x;
 	FILE *out;
 	int len=1;
-	x=mr(ant, pole);
 	m=pole->m;
 	n=pole->n;	
-
+	setlocale(LC_ALL, "C.UTF-8");
 	if (o!=NULL){
 		for (i=10; (nr/i)>=1; i*=10)
 			len++;
@@ -59,7 +60,7 @@ int wypisz(mrowka * ant, pole_m * pole, int nr, char *o){
 	for(i=0; i<m+2; i++){
 		for(j=0; j<n+2; j++)
 			if (i-1==ant->y && j-1==ant->x)
-				fprintf(out,"%s", x);
+				fprintf(out,"%s", mr(ant,pole));
 			else if (i>0 && j>0 && i-1<m && j-1<n && pole->s[i-1][j-1]==1)
 				fprintf(out, "█");
 			else if (i==0 && j==0)

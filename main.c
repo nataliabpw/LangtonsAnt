@@ -36,7 +36,7 @@ int main( int argc, char **argv){
 	pole_m pole;
 	pole.p=0;
 	pole.m=pole.n=0;
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "C.UTF-8");
 	while ((opt=getopt(argc, argv, "m:n:i:o:d:l:p:")) != -1){
 		switch (opt){
 			case 'm':
@@ -86,32 +86,30 @@ int main( int argc, char **argv){
 	pole.s=malloc(pole.m*sizeof(int*));
 	for (i=0; i<pole.m; i++)
 		pole.s[i]=malloc(pole.n*sizeof(int));
-	
+
+	switch (pom_d){
+		case 'N':
+			ant.d=0;
+			break;
+		case 'E':
+			ant.d=1;
+			break;
+		case 'S':
+			ant.d=2;
+			break;
+		case 'W':
+			ant.d=3;
+			break;
+		default:
+			fprintf(stderr, "Podaj kierunek mrówki jako N E S lub W.\n");
+			return 1;
+	}
+
 	if (l!=NULL){
 		pom=wczytaj(&ant, &pole, l);
 		if (pom==1)
 			return 1;
 	}else{
-		switch (pom_d){
-			case 'N':
-				ant.d=0;
-				break;
-			case 'E':
-				ant.d=1;
-				break;
-			case 'S':
-				ant.d=2;
-				break;
-			case 'W':
-				ant.d=3;
-				break;
-			default:
-				fprintf(stderr, "Podaj kierunek mrówki jako N E S lub W.\n");
-				return 1;
-		}
-
-		
-		
 		ant.y=(pole.m-1)/2;
 		ant.x=(pole.n-1)/2;
 		for (i=0; i<pole.m; i++)

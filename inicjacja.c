@@ -8,8 +8,9 @@ int wczytaj(mrowka * ant, pole_m * pole, char *l){
 	int mm, nn;
 	FILE *in=fopen(l, "r");
 	wint_t z;
+	ant->x=-1;
+	ant->y=-1;
 	mm=nn=0;
-	ant->d=-1;
 	if (in!=NULL){
 		while ((z=fgetwc(in)) !=WEOF){
 			while (z==L'\n')
@@ -31,36 +32,16 @@ int wczytaj(mrowka * ant, pole_m * pole, char *l){
 				continue;
 			}else if (z==L'█'){
 				pole->s[mm-1][nn-1]=1;
-			}else if (z==L'▲' || z==L'△' || z==L'▷'|| z==L'▶' || z==L'▽' || z==L'▼' || z==L'◁' || z==L'◀'){
+			}else if (z==L'▲' || z==L'▶' || z==L'▼' || z==L'◀'){
 				ant->x=nn-1;
 				ant->y=mm-1;
-				if (z==L'△'){
-					ant->d=0;
-					pole->s[mm-1][nn-1]=0;
-				} else if (z==L'▲'){
-					ant->d=0;
-					pole->s[mm-1][nn-1]=1;
-				} else if (z==L'▷'){
-					ant->d=1;
-					pole->s[mm-1][nn-1]=0;
-				} else if (z==L'▶'){
-					ant->d=1;
-					pole->s[mm-1][nn-1]=1;
-				} else if (z==L'▽'){
-					ant->d=2;
-					pole->s[mm-1][nn-1]=0;
-				} else if (z==L'▼'){
-					ant->d=2;
-					pole->s[mm-1][nn-1]=1;	
-				} else if (z==L'◁'){
-					ant->d=3;
-					pole->s[mm-1][nn-1]=0;
-				} else if (z==L'◀'){
-					ant->d=3;
-					pole->s[mm-1][nn-1]=1;
-				}
-			}else if(z==L' '){
+				pole->s[mm-1][nn-1]=1;
+			}else if (z==L'△' || z==L'▷' || z==L'▽' || z==L'◁'){
+				ant->x=nn-1;
+				ant->y=mm-1;
 				pole->s[mm-1][nn-1]=0;
+			}else if(z==L' '){
+					pole->s[mm-1][nn-1]=0;
 			}else if (z==L'┌' || z==L'─' || z==L'┐' || z==L'│' || z==L'└' || z==L'┘'){
 				fprintf(stderr, "Podane wartości m i n nie zgadzają się z wczytanym plikiem.\n");
 				return 1;
@@ -71,7 +52,7 @@ int wczytaj(mrowka * ant, pole_m * pole, char *l){
 			nn++;	
 		}
 		
-		if (ant->d==-1){
+		if (ant->x==-1 || ant->y==-1){
 			fprintf(stderr, "Nie mogę odczytać pozycji mrówki.\n");
 			return 1;
 		}
